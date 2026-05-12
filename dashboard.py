@@ -36,10 +36,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 html,body,[class*="css"] { font-family:'Plus Jakarta Sans',sans-serif !important; }
-p,div,span,label,input,textarea,button,a,h1,h2,h3,h4,h5,h6,li,td,th { font-family:'Plus Jakarta Sans',sans-serif !important; }
-[style*="Material Symbols"],[style*="material-symbols"],[style*="Material Icons"],[style*="material-icons"],
-.material-icons,.material-icons-outlined,.material-symbols-outlined,.material-symbols-rounded,
-[class*="material"] { font-family:'Material Symbols Rounded','Material Symbols Outlined','Material Icons' !important; }
+p,div,label,input,textarea,a,h1,h2,h3,h4,h5,h6,li,td,th { font-family:'Plus Jakarta Sans',sans-serif !important; }
 #MainMenu,footer,.stDeployButton { display:none !important; }
 header[data-testid="stHeader"] { display:none !important; }
 .stApp,[data-testid="stAppViewContainer"] { background:#f8fafc !important; }
