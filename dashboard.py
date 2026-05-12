@@ -36,6 +36,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 html,body,[class*="css"],* { font-family:'Plus Jakarta Sans',sans-serif !important; }
+.material-icons,.material-icons-outlined,.material-symbols-outlined,.material-symbols-rounded { font-family:'Material Icons','Material Symbols Outlined','Material Symbols Rounded' !important; }
 #MainMenu,footer,.stDeployButton { display:none !important; }
 header[data-testid="stHeader"] { display:none !important; }
 .stApp,[data-testid="stAppViewContainer"] { background:#f8fafc !important; }
