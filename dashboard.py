@@ -454,7 +454,8 @@ with tab_creative:
             textfont=dict(family=MONO, size=11, color=C["text"]),
             hovertemplate="<b>%{y}</b><br>CTR %{x:.2f}%<extra></extra>",
         ))
-        fig_fmt.update_layout(**base_layout(240), title_text="포맷별 CTR",
+        fig_fmt.update_layout(**base_layout(240, margin=dict(l=8, r=56, t=36, b=8)),
+                              title_text="포맷별 CTR",
                               title_font=dict(size=13, color=C["sub"]))
         fig_fmt.update_xaxes(ticksuffix="%", showgrid=True, gridcolor=C["grid"],
                              tickfont=dict(size=10, color=C["muted"]), zeroline=False)
