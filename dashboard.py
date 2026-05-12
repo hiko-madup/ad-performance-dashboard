@@ -5,7 +5,7 @@ from pathlib import Path
 import glob
 import re
 
-st.set_page_config(page_title="Ad Performance", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Ad Performance", layout="wide", initial_sidebar_state="collapsed")
 
 # ── Design tokens ──────────────────────────────────────────────────────────────
 C = {
@@ -40,17 +40,8 @@ html,body,[class*="css"],* { font-family:'Plus Jakarta Sans',sans-serif !importa
 header[data-testid="stHeader"] { display:none !important; }
 .stApp,[data-testid="stAppViewContainer"] { background:#f8fafc !important; }
 [data-testid="block-container"] { padding:2.5rem 3rem 4rem !important; max-width:1440px !important; }
-[data-testid="stSidebar"] { background:#0f172a !important; border-right:1px solid #1e293b !important; }
-[data-testid="stSidebar"] p,[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] span,[data-testid="stSidebar"] div { color:#94a3b8 !important; }
-[data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 { color:#f1f5f9 !important; }
-[data-testid="stSidebarContent"] { padding:2rem 1.5rem !important; }
-[data-testid="stSidebar"] [data-baseweb="input"],
-[data-testid="stSidebar"] [data-baseweb="select"]>div { background:#1e293b !important; border-color:#334155 !important; }
-[data-testid="stSidebar"] [data-baseweb="tag"] { background:#1d4ed8 !important; border-radius:999px !important; }
-[data-testid="stSidebar"] [data-baseweb="tag"] span { color:#fff !important; }
-[data-testid="stSidebar"] input[type="text"] { background:#1e293b !important; color:#e2e8f0 !important; border-color:#334155 !important; }
+[data-testid="stSidebar"] { display:none !important; }
+[data-testid="stSidebarCollapsedControl"] { display:none !important; }
 .stButton>button { background:#0f172a !important; color:#f8fafc !important; border:none !important;
   border-radius:999px !important; font-weight:500 !important; font-size:0.8125rem !important;
   padding:0.5rem 1.25rem !important; transition:all .25s cubic-bezier(.32,.72,0,1) !important; }
@@ -116,17 +107,17 @@ if df.empty:
     st.stop()
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("### Ad Performance")
-    st.markdown("<div style='height:1px;background:#1e293b;margin:.75rem 0 1.25rem'></div>", unsafe_allow_html=True)
-    channels   = st.multiselect("채널", sorted(df["채널"].unique()), default=sorted(df["채널"].unique()))
-    campaigns  = st.multiselect("캠페인", sorted(df["캠페인"].unique()), default=sorted(df["캠페인"].unique()))
-    date_range = st.date_input("기간", value=(df["일"].min(), df["일"].max()))
-    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-    st.button("데이터 새로고침", on_click=load_data.clear)
-    st.markdown(f"<div style='color:#475569;font-size:.7rem;margin-top:2rem'>마지막 업데이트<br>"
-                f"<span style='color:#64748b;font-family:{MONO},monospace'>"
-                f"{pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')}</span></div>", unsafe_allow_html=True)
+with st.expander("⚙️  필터 · 설정", expanded=False):
+    fc1, fc2, fc3, fc4 = st.columns([2, 3, 2, 1])
+    with fc1:
+        channels = st.multiselect("채널", sorted(df["채널"].unique()), default=sorted(df["채널"].unique()))
+    with fc2:
+        campaigns = st.multiselect("캠페인", sorted(df["캠페인"].unique()), default=sorted(df["캠페인"].unique()))
+    with fc3:
+        date_range = st.date_input("기간", value=(df["일"].min(), df["일"].max()))
+    with fc4:
+        st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+        st.button("새로고침", on_click=load_data.clear)
 
 filt = df[
     df["채널"].isin(channels) &
@@ -609,12 +600,12 @@ with tab_monthly:
 # ── 푸터 ──────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;
-    display:flex;justify-content:space-between;align-items:center">
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
   <span style="font-size:.75rem;color:#cbd5e1">
     {len(filt):,}행 · 채널 {filt['채널'].nunique()}개 · 캠페인 {filt['캠페인'].nunique()}개 · 소재 {filt['소재'].nunique()}개
   </span>
   <span style="font-size:.75rem;color:#cbd5e1;font-family:'{MONO}',monospace">
-    AF 매출 기준 · 7일 클릭 Attribution
+    AF 매출 기준 · 7일 클릭 Attribution · {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')}
   </span>
 </div>
 """, unsafe_allow_html=True)
